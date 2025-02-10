@@ -40,6 +40,7 @@ public class Main {
         //• Input: "Hello, World!"
         //• Expected Output: Length of the string: 13 And Reversed string: "!dlroW ,olleH"
 
+        data.nextLine();
         System.out.println("Enter a String: ");
         String sentence = data.nextLine();
         int stringLength = sentence.length();
@@ -63,6 +64,7 @@ public class Main {
         //• Input: Sentence = "The quick brown fox jumps over the lazy dog", Keyword = "jumps"
         //• Expected Output: Keyword "jumps" is present in the sentence.
 
+        data.nextLine();
         System.out.println("Enter a sentence : ");
         String sentence_3 = data.nextLine();
         System.out.println("Enter a keyword : ");
@@ -90,7 +92,6 @@ public class Main {
         System.out.println("Enter second string: ");
         String secondString = data.nextLine();
         System.out.println("Are the two string equal ignoring case : " + firstString.equalsIgnoreCase(secondString));
-
 
     }
 }
