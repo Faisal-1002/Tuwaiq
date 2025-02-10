@@ -35,12 +35,12 @@ public class Main {
         float exchangeRate = data.nextFloat();
         float amountOfNewCurrency = amountOfFirstCurrency * exchangeRate;
         System.out.println("Amount of new currency " + amountOfNewCurrency);
+        data.nextLine();
 
         //4. Create a program that takes a string as input, calculates its length, and then reverses the string using the StringBuilder class, finally printing both the length and reversed string.
         //• Input: "Hello, World!"
         //• Expected Output: Length of the string: 13 And Reversed string: "!dlroW ,olleH"
 
-        data.nextLine();
         System.out.println("Enter a String: ");
         String sentence = data.nextLine();
         int stringLength = sentence.length();
@@ -59,12 +59,12 @@ public class Main {
         System.out.println("Enter end index: ");
         int endIndex = data.nextInt();
         System.out.println("The sentence after extraction : " + sentence_2.substring(startIndex,endIndex));
+        data.nextLine();
 
         //6. Write a program that takes a sentence and a keyword as input, then check if the keyword is present in the sentence and prints the result.
         //• Input: Sentence = "The quick brown fox jumps over the lazy dog", Keyword = "jumps"
         //• Expected Output: Keyword "jumps" is present in the sentence.
 
-        data.nextLine();
         System.out.println("Enter a sentence : ");
         String sentence_3 = data.nextLine();
         System.out.println("Enter a keyword : ");
