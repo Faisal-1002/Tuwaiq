@@ -7,14 +7,6 @@ public class Main {
         Scanner data = new Scanner(System.in);
 
         //1. Write a Java program to print the sum (addition), multiply, subtract, divide and remainder of two numbers , takes two numbers as input
-        //Test Data:
-        //Input first number: 125
-        //Input second number: 24 Expected Output :
-        //125 + 24 = 149
-        //125 - 24 = 101
-        //125 x 24 = 3000
-        //125 / 24 = 5
-        //125 mod 24 = 5
 
         System.out.println("Enter first number");
         int num1 = data.nextInt();
@@ -28,13 +20,6 @@ public class Main {
         System.out.println(num1 + " mod " + num2 + " = " + (num1%num2));
 
         //2. Write a Java program that takes a number as input and prints its multiplication table up to 10.
-        //Test Data:
-        //Input a number: 8 Expected Output :
-        //8 x 1 = 8
-        //8 x 2 = 16
-        //8 x 3 = 24
-        //...
-        //8 x 10 = 80
 
         System.out.println("Enter a number");
         int number = data.nextInt();
@@ -80,6 +65,7 @@ public class Main {
         }
 
         //6. Write a Java program to reverse a word.
+
         data.nextLine();
         System.out.println("Enter a string to be reversed");
         String word = data.nextLine();
@@ -111,6 +97,7 @@ public class Main {
 
         //9.Write a Java program that takes a string and a number from the user,
         //then prints the character in the given index.
+
         data.nextLine();
         System.out.println("Enter a string:");
         String sentence = data.nextLine();
@@ -249,16 +236,19 @@ public class Main {
         boolean firstIrritation = true;
 
         while (true){
-            System.out.println("Enter a number or zero to exit");
-            int num = data.nextInt();
+            System.out.println("Enter a number or write (exit) to end the program");
+            int num = 0;
+            if(data.hasNextInt()){
+                num = data.nextInt();
+            }else if(data.nextLine().equalsIgnoreCase("exit")){
+                break;
+            }
             if(firstIrritation){
                 largest = num;
                 lowest = num;
                 firstIrritation = false;
             }
-            if(num == 0){
-                break;
-            } else if (num>largest) {
+            if (num>largest) {
                 largest = num;
             } else if (num<lowest) {
                 lowest = num;
@@ -269,6 +259,7 @@ public class Main {
 
         //18 - Determine and print the number of times
         //the character ‘a’ appears in the input entered by the user.
+
         data.nextLine();
         System.out.println("Enter a string to determine how many a's it has:");
         String inputString = data.nextLine();
