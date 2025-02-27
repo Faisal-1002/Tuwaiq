@@ -21,7 +21,10 @@ public class Rectangle extends Shape{
     }
 
     public void setHeight(double height) {
-        this.height = height;
+        if (height>=0)
+            this.height = height;
+        else
+            System.out.println("Height cannot be negative");
     }
 
     public double getWidth() {
@@ -29,7 +32,10 @@ public class Rectangle extends Shape{
     }
 
     public void setWidth(double width) {
-        this.width = width;
+        if (width>=0)
+            this.width = width;
+        else
+            System.out.println("Width cannot be negative");
     }
 
     //This is the override method we got form the abstract class Shape.

@@ -21,7 +21,10 @@ public class Triangle extends Shape{
     }
 
     public void setHeight(double height) {
-        this.height = height;
+        if (height>=0)
+            this.height = height;
+        else
+            System.out.println("Height cannot be negative");
     }
 
     public double getBase() {
@@ -29,7 +32,10 @@ public class Triangle extends Shape{
     }
 
     public void setBase(double base) {
-        this.base = base;
+        if (base>=0)
+            this.base = base;
+        else
+            System.out.println("Base cannot be negative");
     }
 
     //This is the override method we got form the abstract class Shape.

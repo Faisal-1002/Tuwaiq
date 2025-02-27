@@ -18,7 +18,10 @@ public class Circle extends Shape{
     }
 
     public void setRadius(double radius) {
-        this.radius = radius;
+        if (radius>=0)
+            this.radius = radius;
+        else
+            System.out.println("Radius cannot be negative");
     }
 
     //This is the override method we got form the abstract class Shape.
