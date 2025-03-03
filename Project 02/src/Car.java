@@ -55,7 +55,7 @@ public class Car {
         try {
             if (this.carPassenger.size()<maxPassengers){
                 this.carPassenger.add(passenger);
-                System.out.println("Passenger has been added!");
+                System.out.println("Passenger has been added! The car has now " + (maxPassengers-carPassenger.size()) + " available seats");
                 return true;
             } else
                 throw new Exception("Sorry, the car is full of passengers");
@@ -69,6 +69,11 @@ public class Car {
 
     @Override
     public String toString() {
-        return code;
+        return "Car{" +
+                "code='" + code + '\'' +
+                ", route=" + route +
+                ", maxPassengers=" + maxPassengers +
+                ", passengersCount=" + carPassenger.size() +
+                '}';
     }
 }

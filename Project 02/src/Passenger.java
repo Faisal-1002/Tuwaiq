@@ -60,10 +60,10 @@ public abstract class Passenger {
     @Override
     public String toString() {
         return "Passenger{" +
-                "Name='" + name + '\'' +
-                ", ID='" + Id + '\'' +
-                ", Car Code=" + car +
-                ", Trip Cost=" + tripCost +
+                "name='" + name + '\'' +
+                ", Id='" + Id + '\'' +
+                ", car=" + car +
+                ", tripCost=" + tripCost +
                 '}';
     }
 }
