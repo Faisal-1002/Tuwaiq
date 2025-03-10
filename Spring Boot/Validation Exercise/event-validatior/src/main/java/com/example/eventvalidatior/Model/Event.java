@@ -1,10 +1,7 @@
 package com.example.eventvalidatior.Model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.format.annotation.NumberFormat;
@@ -21,7 +18,7 @@ public class Event {
     @Size(min = 16)
     private String description;
     @NotNull
-    @NumberFormat
+    @Positive
     @Min(26)
     private int capacity;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
