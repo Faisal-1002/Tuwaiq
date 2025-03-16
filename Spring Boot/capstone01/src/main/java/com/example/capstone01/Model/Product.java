@@ -7,14 +7,13 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 
 @Data
 @AllArgsConstructor
 public class Product {
-    private final Category category;
-
     @NotEmpty(message = "ID must not me empty")
     private String id;
     @NotEmpty(message = "Name must be not empty")
@@ -24,5 +23,5 @@ public class Product {
     @Positive(message = "Price must be positive")
     private double price;
     @NotEmpty(message = "Category ID must not be empty")
-    private String categoryId = category.getId();
+    private String categoryId;
 }

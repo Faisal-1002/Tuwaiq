@@ -20,17 +20,37 @@ public class ProductService {
 
     public boolean addProduct(Product product) {
         for (Product product1 : products){
-            if (product1.getId().equals(product.getId()) || product1.getCategoryId().equals(product.getCategoryId()))
+            if (product1.getId().equals(product.getId()))
                 return false;
         }
-        products.add(product);
-        return true;
+        for (Category category1 : categoryService.getAllCategories()){
+            if (category1.getId().equals(product.getCategoryId())){
+                products.add(product);
+                return true;
+            }
+        }
+        return false;
+
     }
 
-    public boolean updateProduct(Product product) {
+    public boolean updateProduct(String id, Product product) {
+        for (Category category1 : categoryService.getAllCategories()){
+            if (category1.getId().equals(product.getCategoryId())){
+                for (int i = 0; i < products.size(); i++) {
+                    if (products.get(i).getId().equals(id)){
+                        products.set(i, product);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean deleteProduct(String id) {
         for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getId().equals(product.getId())){
-                products.set(i, product);
+            if (products.get(i).getId().equals(id)){
+                products.remove(i);
                 return true;
             }
         }
