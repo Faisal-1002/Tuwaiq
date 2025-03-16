@@ -18,7 +18,7 @@ public class User {
     @Email(message = "Email format is wrong")
     private String email;
     @NotEmpty(message = "Role must not be empty")
-    @Pattern(regexp = "^(Admin|Customrt)$", message = "Role must be either admin or customer")
+    @Pattern(regexp = "^(Admin|Customer)$", message = "Role must be either admin or customer")
     private String role;
     @NotNull(message = "Balance must not be empty")
     @Positive(message = "Balance must be positive")

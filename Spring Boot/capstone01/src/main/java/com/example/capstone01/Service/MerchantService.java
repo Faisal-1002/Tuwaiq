@@ -44,5 +44,13 @@ public class MerchantService {
         return false;
     }
 
+    public Merchant getMerchantById(String id) {
+        for (Merchant m : merchants) {
+            if (m.getId().equals(id)) {
+                return m;
+            }
+        }
+        return null;
+    }
 
 }

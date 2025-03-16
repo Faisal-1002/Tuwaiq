@@ -18,7 +18,7 @@ public class UserController {
 
     @GetMapping("/get")
     public ResponseEntity getAllUsers(){
-        return ResponseEntity.status(200).body(userService.getUsers());
+        return ResponseEntity.status(200).body(userService.getAllUsers());
     }
     @PostMapping("/add")
     public ResponseEntity addUser(@RequestBody @Valid User user, Errors errors){
@@ -45,5 +45,11 @@ public class UserController {
         if (userService.deleteUser(id))
             return ResponseEntity.status(200).body(new ApiResponse("User Deleted successfully"));
         return ResponseEntity.status(400).body(new ApiResponse("User could not be deleted"));
+    }
+    @PutMapping("/buyproduct/{userId}/{productId}/{merchantId}")
+    public ResponseEntity buyProduct(@PathVariable String userId, @PathVariable String productId, @PathVariable String merchantId){
+        if (userService.buyProduct(userId, productId, merchantId))
+            return ResponseEntity.status(200).body(new ApiResponse("Product has been purchased successfully"));
+        return ResponseEntity.status(400).body(new ApiResponse("Product could not be purchased"));
     }
 }

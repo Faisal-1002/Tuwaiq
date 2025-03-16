@@ -57,4 +57,13 @@ public class ProductService {
         return false;
     }
 
+    public Product getProductById(String id) {
+        for (Product product1 : products){
+            if (product1.getId().equals(id)){
+                return product1;
+            }
+        }
+        return null;
+    }
+
 }

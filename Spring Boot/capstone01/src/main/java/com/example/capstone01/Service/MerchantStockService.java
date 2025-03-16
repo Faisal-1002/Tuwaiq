@@ -20,36 +20,38 @@ public class MerchantStockService {
     }
 
     public boolean addMerchantStock(MerchantStock merchantStock) {
-        for (Product product : productService.getAllProducts()) {
-            if (product.getId().equals(merchantStock.getProductId())) {
-                for (Merchant merchant : merchantService.getMerchants()) {
-                    if (merchant.getId().equals(merchantStock.getMerchantId())) {
-                        for (int i = 0; i < merchantStocks.size(); i++) {
-                            if (merchantStocks.get(i).getMerchantId().equals(merchantStock.getMerchantId())) {
-                                merchantStocks.add(merchantStocks.get(i));
-                                return true;
-                            }
-                        }
-                    }
-                }
+        Product product = productService.getProductById(merchantStock.getProductId());
+        if (product == null) {
+            return false;
+        }
+        Merchant merchant = merchantService.getMerchantById(merchantStock.getMerchantId());
+        if (merchant == null) {
+            return false;
+        }
+        for (MerchantStock existingStock : merchantStocks) {
+            if (existingStock.getMerchantId().equals(merchantStock.getMerchantId()) &&
+                    existingStock.getProductId().equals(merchantStock.getProductId())) {
+                return false;
             }
         }
-        return false;
+        merchantStocks.add(merchantStock);
+        return true;
     }
 
     public boolean updateMerchantStock(String id, MerchantStock merchantStock) {
-        for (Product product : productService.getAllProducts()) {
-            if (product.getId().equals(merchantStock.getProductId())) {
-                for (Merchant merchant : merchantService.getMerchants()) {
-                    if (merchant.getId().equals(merchantStock.getMerchantId())) {
-                        for (int i = 0; i < merchantStocks.size(); i++) {
-                            if (merchantStocks.get(i).getMerchantId().equals(id)) {
-                                merchantStocks.set(i, merchantStocks.get(i));
-                                return true;
-                            }
-                        }
-                    }
-                }
+        Product product = productService.getProductById(merchantStock.getProductId());
+        if (product == null) {
+            return false;
+        }
+        Merchant merchant = merchantService.getMerchantById(merchantStock.getMerchantId());
+        if (merchant == null) {
+            return false;
+        }
+        for (int i = 0; i < merchantStocks.size(); i++) {
+            MerchantStock existingStock = merchantStocks.get(i);
+            if (existingStock.getId().equals(id)) {
+                merchantStocks.set(i, merchantStock);
+                return true;
             }
         }
         return false;
@@ -57,7 +59,7 @@ public class MerchantStockService {
 
     public boolean deleteMerchantStock(String id) {
         for (int i = 0; i < merchantStocks.size(); i++) {
-            if (merchantStocks.get(i).getMerchantId().equals(id)) {
+            if (merchantStocks.get(i).getId().equals(id)) {
                 merchantStocks.remove(i);
                 return true;
             }
@@ -66,9 +68,12 @@ public class MerchantStockService {
     }
 
     public boolean addProductStock(String productId, String merchantId, int quantity) {
-        for (int i = 0; i < merchantStocks.size(); i++) {
-            if (merchantStocks.get(i).getProductId().equals(productId) && merchantStocks.get(i).getMerchantId().equals(merchantId)) {
-                merchantStocks.get(i).setStock(merchantStocks.get(i).getStock() + quantity);
+        if (productId == null || merchantId == null || quantity <= 0) {
+            return false;
+        }
+        for (MerchantStock merchantStock : merchantStocks) {
+            if (merchantStock.getProductId().equals(productId) && merchantStock.getMerchantId().equals(merchantId)) {
+                merchantStock.setStock(merchantStock.getStock() + quantity);
                 return true;
             }
         }

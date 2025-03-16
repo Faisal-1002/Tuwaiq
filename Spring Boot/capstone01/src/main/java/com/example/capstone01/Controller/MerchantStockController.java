@@ -27,7 +27,7 @@ public class MerchantStockController {
         }
         if (merchantStockService.addMerchantStock(merchantStock))
             return ResponseEntity.status(200).body(new ApiResponse("Merchant Stock added successfully"));
-        return ResponseEntity.status(400).body(new ApiResponse("Merchant Stock already exists"));
+        return ResponseEntity.status(400).body(new ApiResponse("Error adding Merchant Stock"));
     }
     @PutMapping("/update/{id}")
     public ResponseEntity updateMerchantStock(@PathVariable String id, @RequestBody @Valid MerchantStock merchantStock, Errors errors){

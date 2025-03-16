@@ -45,5 +45,10 @@ public class ProductController {
             return ResponseEntity.status(200).body(new ApiResponse("Product deleted successfully"));
         return ResponseEntity.status(400).body(new ApiResponse("Product not deleted"));
     }
-
+    @GetMapping("/search/{id}")
+    public ResponseEntity searchProduct(@PathVariable String id){
+        if (productService.getProductById(id) == null)
+            return ResponseEntity.status(400).body(new ApiResponse("Product not found"));
+        return ResponseEntity.status(200).body(productService.getProductById(id));
+    }
 }

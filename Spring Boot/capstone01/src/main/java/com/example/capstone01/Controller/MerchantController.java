@@ -38,10 +38,16 @@ public class MerchantController {
             return ResponseEntity.status(200).body(new ApiResponse("Merchant updated successfully"));
         return ResponseEntity.status(400).body(new ApiResponse("Merchant not updated"));
     }
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteMerchant(@PathVariable String id){
         if (merchantService.deleteMerchant(id))
             return ResponseEntity.status(200).body(new ApiResponse("Merchant deleted successfully"));
         return ResponseEntity.status(400).body(new ApiResponse("Merchant not deleted"));
+    }
+    @GetMapping("/searchbyid/{id}")
+    public ResponseEntity getMerchantById(@PathVariable String id){
+        if (merchantService.getMerchantById(id) == null)
+            return ResponseEntity.status(400).body(new ApiResponse("Merchant not found"));
+        return ResponseEntity.status(200).body(merchantService.getMerchantById(id));
     }
 }
