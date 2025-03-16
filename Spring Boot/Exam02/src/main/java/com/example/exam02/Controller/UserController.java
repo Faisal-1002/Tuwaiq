@@ -19,7 +19,7 @@ public class UserController {
 
     @GetMapping("/get")
     public ResponseEntity getAllUsers() {
-        return ResponseEntity.status(200).body(userService);
+        return ResponseEntity.status(200).body(userService.getAllUsers());
     }
     @PostMapping("/add")
     public ResponseEntity addUser(@RequestBody @Valid User user, Errors errors) {

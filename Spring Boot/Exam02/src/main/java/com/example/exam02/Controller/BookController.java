@@ -23,7 +23,7 @@ public class BookController {
 
     @GetMapping("/get")
     public ResponseEntity getAllBooks() {
-        return ResponseEntity.status(200).body(bookService);
+        return ResponseEntity.status(200).body(bookService.getAllBooks());
     }
     @PostMapping("/add")
     public ResponseEntity addBook(@RequestBody @Valid Book book, Errors errors) {
