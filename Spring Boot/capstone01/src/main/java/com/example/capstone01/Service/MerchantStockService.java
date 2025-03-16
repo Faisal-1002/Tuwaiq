@@ -65,4 +65,14 @@ public class MerchantStockService {
         return false;
     }
 
+    public boolean addProductStock(String productId, String merchantId, int quantity) {
+        for (int i = 0; i < merchantStocks.size(); i++) {
+            if (merchantStocks.get(i).getProductId().equals(productId) && merchantStocks.get(i).getMerchantId().equals(merchantId)) {
+                merchantStocks.get(i).setStock(merchantStocks.get(i).getStock() + quantity);
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
