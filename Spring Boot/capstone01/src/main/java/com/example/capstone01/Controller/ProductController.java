@@ -51,4 +51,10 @@ public class ProductController {
             return ResponseEntity.status(400).body(new ApiResponse("Product not found"));
         return ResponseEntity.status(200).body(productService.getProductById(id));
     }
+    @GetMapping("/getreviews/{id}")
+    public ResponseEntity getAllReviews(@PathVariable String id){
+        if (productService.getReviews(id) == null)
+            return ResponseEntity.status(400).body(new ApiResponse("Reviews could not be found"));
+        return ResponseEntity.status(200).body(productService.getReviews(id));
+    }
 }

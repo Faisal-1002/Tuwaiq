@@ -46,10 +46,34 @@ public class UserController {
             return ResponseEntity.status(200).body(new ApiResponse("User Deleted successfully"));
         return ResponseEntity.status(400).body(new ApiResponse("User could not be deleted"));
     }
+    @GetMapping("/searchbyid/{id}")
+    public ResponseEntity searchUserById(@PathVariable String id) {
+        if (userService.getUserById(id) == null)
+            return ResponseEntity.status(400).body(new ApiResponse("User could not be found"));
+        return ResponseEntity.status(200).body(userService.getUserById(id));
+    }
     @PutMapping("/buyproduct/{userId}/{productId}/{merchantId}")
     public ResponseEntity buyProduct(@PathVariable String userId, @PathVariable String productId, @PathVariable String merchantId){
         if (userService.buyProduct(userId, productId, merchantId))
             return ResponseEntity.status(200).body(new ApiResponse("Product has been purchased successfully"));
         return ResponseEntity.status(400).body(new ApiResponse("Product could not be purchased"));
+    }
+    @PutMapping("/refundproduct/{userId}/{productId}/{merchantId}")
+    public ResponseEntity refundProduct(@PathVariable String userId, @PathVariable String productId, @PathVariable String merchantId){
+        if (userService.refundProduct(userId, productId, merchantId))
+            return ResponseEntity.status(200).body(new ApiResponse("Product has been refunded successfully"));
+        return ResponseEntity.status(400).body(new ApiResponse("Product could not be refunded"));
+    }
+    @GetMapping("/orderhistory/{id}/{ascending}")
+    public ResponseEntity orderHistory(@PathVariable String id, @PathVariable boolean ascending){
+        if (userService.getUserOrderHistory(id, ascending) == null)
+            return ResponseEntity.status(400).body(new ApiResponse("Order History could not be found"));
+        return ResponseEntity.status(200).body(userService.getUserOrderHistory(id, ascending));
+    }
+    @PostMapping("/addreview/{userId}/{productId}/{rating}/{review}")
+    public ResponseEntity addReview(@PathVariable String userId, @PathVariable String productId, @PathVariable double rating, @PathVariable String review){
+        if (userService.addReview(userId, productId, rating, review))
+            return ResponseEntity.status(200).body(new ApiResponse("Review added successfully"));
+        return ResponseEntity.status(400).body(new ApiResponse("Review could not be added"));
     }
 }

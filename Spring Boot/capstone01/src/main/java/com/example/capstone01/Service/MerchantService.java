@@ -10,7 +10,7 @@ public class MerchantService {
 
     ArrayList<Merchant> merchants = new ArrayList<Merchant>();
 
-    public ArrayList<Merchant> getMerchants() {
+    public ArrayList<Merchant> getAllMerchants() {
         return merchants;
     }
 

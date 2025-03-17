@@ -34,14 +34,17 @@ public class ProductService {
     }
 
     public boolean updateProduct(String id, Product product) {
-        for (Category category1 : categoryService.getAllCategories()){
-            if (category1.getId().equals(product.getCategoryId())){
-                for (int i = 0; i < products.size(); i++) {
-                    if (products.get(i).getId().equals(id)){
-                        products.set(i, product);
-                        return true;
-                    }
-                }
+        for (int i = 0; i < products.size(); i++) {
+            if (products.get(i).getId().equals(id)) {
+                Product existingProduct = products.get(i);
+
+                product.setPurchaseTime(existingProduct.getPurchaseTime());
+
+                existingProduct.setName(product.getName());
+                existingProduct.setPrice(product.getPrice());
+                existingProduct.setCategoryId(product.getCategoryId());
+
+                return true;
             }
         }
         return false;
@@ -65,5 +68,19 @@ public class ProductService {
         }
         return null;
     }
+
+    public ArrayList<String> getReviews(String productId) {
+        ArrayList<String> mergedReviews = new ArrayList<>();
+
+        // Iterate through all products to find all instances of this product
+        for (Product product : products) {
+            if (product.getId().equals(productId)) {
+                mergedReviews.addAll(product.getReviews()); // Merge all reviews
+            }
+        }
+
+        return mergedReviews.isEmpty() ? null : mergedReviews;
+    }
+
 
 }

@@ -18,7 +18,7 @@ public class MerchantController {
 
     @GetMapping("/get")
     public ResponseEntity getAllMerchants(){
-        return ResponseEntity.status(200).body(merchantService.getMerchants());
+        return ResponseEntity.status(200).body(merchantService.getAllMerchants());
     }
     @PostMapping("/add")
     public ResponseEntity addMerchant(@RequestBody @Valid Merchant merchant, Errors errors){

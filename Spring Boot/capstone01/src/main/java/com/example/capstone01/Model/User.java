@@ -3,9 +3,13 @@ package com.example.capstone01.Model;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class User {
     @NotEmpty(message = "ID must be not empty")
     private String id;
@@ -23,4 +27,5 @@ public class User {
     @NotNull(message = "Balance must not be empty")
     @Positive(message = "Balance must be positive")
     private double balance;
+    ArrayList<Product> purchasedProducts = new ArrayList<>();
 }

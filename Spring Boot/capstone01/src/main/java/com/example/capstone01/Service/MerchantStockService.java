@@ -21,11 +21,8 @@ public class MerchantStockService {
 
     public boolean addMerchantStock(MerchantStock merchantStock) {
         Product product = productService.getProductById(merchantStock.getProductId());
-        if (product == null) {
-            return false;
-        }
         Merchant merchant = merchantService.getMerchantById(merchantStock.getMerchantId());
-        if (merchant == null) {
+        if (product == null || merchant == null) {
             return false;
         }
         for (MerchantStock existingStock : merchantStocks) {
@@ -40,11 +37,8 @@ public class MerchantStockService {
 
     public boolean updateMerchantStock(String id, MerchantStock merchantStock) {
         Product product = productService.getProductById(merchantStock.getProductId());
-        if (product == null) {
-            return false;
-        }
         Merchant merchant = merchantService.getMerchantById(merchantStock.getMerchantId());
-        if (merchant == null) {
+        if (product == null || merchant == null) {
             return false;
         }
         for (int i = 0; i < merchantStocks.size(); i++) {

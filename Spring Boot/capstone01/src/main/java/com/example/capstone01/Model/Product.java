@@ -1,18 +1,17 @@
 package com.example.capstone01.Model;
 
-import com.example.capstone01.Service.CategoryService;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Product {
     @NotEmpty(message = "ID must not me empty")
     private String id;
@@ -24,4 +23,9 @@ public class Product {
     private double price;
     @NotEmpty(message = "Category ID must not be empty")
     private String categoryId;
+    private LocalDateTime purchaseTime;
+    @Min(value = 0, message = "Rating cannot be less than zero")
+    @Max(value = 5, message = "Rating cannot be more than 5")
+    private double rating = 0.0;
+    private ArrayList<String> reviews = new ArrayList<>();
 }
