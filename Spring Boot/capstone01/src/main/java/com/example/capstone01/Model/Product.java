@@ -1,12 +1,11 @@
 package com.example.capstone01.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 @Data
@@ -23,9 +22,11 @@ public class Product {
     private double price;
     @NotEmpty(message = "Category ID must not be empty")
     private String categoryId;
-    private LocalDateTime purchaseTime;
+    @Pattern(regexp = "^(Purchased|Refunded)$")
+    private String status;
     @Min(value = 0, message = "Rating cannot be less than zero")
     @Max(value = 5, message = "Rating cannot be more than 5")
     private double rating = 0.0;
     private ArrayList<String> reviews = new ArrayList<>();
+    private LocalDate purchaseDate;
 }

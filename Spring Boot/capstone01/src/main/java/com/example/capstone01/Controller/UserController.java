@@ -76,4 +76,10 @@ public class UserController {
             return ResponseEntity.status(200).body(new ApiResponse("Review added successfully"));
         return ResponseEntity.status(400).body(new ApiResponse("Review could not be added"));
     }
+    @GetMapping("/getpurchasestatics/{id}")
+    public ResponseEntity getAllPurchaseStatics(@PathVariable String id){
+        if (userService.getMostAndLeastPurchasedProducts(id) == null)
+            return ResponseEntity.status(400).body(new ApiResponse("Product not found"));
+        return ResponseEntity.status(200).body(userService.getMostAndLeastPurchasedProducts(id));
+    }
 }

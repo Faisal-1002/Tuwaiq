@@ -1,16 +1,13 @@
 package com.example.capstone01.Service;
 
-import com.example.capstone01.Model.Merchant;
 import com.example.capstone01.Model.MerchantStock;
 import com.example.capstone01.Model.Product;
 import com.example.capstone01.Model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -75,13 +72,10 @@ public class UserService {
 
     public boolean buyProduct(String userId, String productId, String merchantId) {
         User user = getUserById(userId);
-        Product originalProduct = productService.getProductById(productId);
-        Merchant merchant = merchantService.getMerchantById(merchantId);
-
-        if (user == null || user.getRole().equals("Admin")|| originalProduct == null || merchant == null) {
+        Product product = productService.getProductById(productId);
+        if (user == null  || user.getRole().equals("Admin") || product == null) {
             return false;
         }
-
         MerchantStock merchantStock = null;
         for (MerchantStock stock : merchantStockService.getAllMerchantStocks()) {
             if (stock.getProductId().equals(productId) && stock.getMerchantId().equals(merchantId)) {
@@ -89,37 +83,32 @@ public class UserService {
                 break;
             }
         }
-
-        if (merchantStock == null || merchantStock.getStock() < 1) {
-            return false;
-        }
-        if (user.getBalance() < originalProduct.getPrice()) {
+        if (merchantStock == null || merchantStock.getStock() < 1 || user.getBalance() < product.getPrice()) {
             return false;
         }
 
-        Product purchasedProduct = new Product(
-                originalProduct.getId(),
-                originalProduct.getName(),
-                originalProduct.getPrice(),
-                originalProduct.getCategoryId(),
-                LocalDateTime.now(),
-                originalProduct.getRating(),
-                originalProduct.getReviews()
-        );
-
+        user.setBalance(user.getBalance() - product.getPrice());
         merchantStock.setStock(merchantStock.getStock() - 1);
-        user.setBalance(user.getBalance() - purchasedProduct.getPrice());
-
-        user.getPurchasedProducts().add(purchasedProduct);
+        product.setPurchaseDate(LocalDate.now());
+        product.setStatus("Purchased");
+        user.getPurchasedProducts().add(product);
 
         return true;
     }
 
     public boolean refundProduct(String userId, String productId, String merchantId) {
         User user = getUserById(userId);
-        Product product = productService.getProductById(productId);
-        Merchant merchant = merchantService.getMerchantById(merchantId);
-        if (user == null || user.getRole().equals("Admin") || product == null || merchant == null || !(user.getPurchasedProducts().contains(product))) {
+        if (user == null || user.getRole().equals("Admin")) {
+            return false;
+        }
+        Product product = null;
+        for (Product p : user.getPurchasedProducts()) {
+            if (p.getId().equals(productId)) {
+                product = p;
+                break;
+            }
+        }
+        if (product == null) {
             return false;
         }
         MerchantStock merchantStock = null;
@@ -134,7 +123,7 @@ public class UserService {
         }
         merchantStock.setStock(merchantStock.getStock() + 1);
         user.setBalance(user.getBalance() + product.getPrice());
-        user.getPurchasedProducts().remove(product);
+        product.setStatus("Refunded");
         return true;
     }
 
@@ -148,7 +137,7 @@ public class UserService {
             orderHistory.sort(new Comparator<Product>() {
                     @Override
                     public int compare(Product p1, Product p2) {
-                        return p1.getPurchaseTime().compareTo(p2.getPurchaseTime());
+                        return p1.getPurchaseDate().compareTo(p2.getPurchaseDate());
                     }
                 }
             );
@@ -156,7 +145,7 @@ public class UserService {
             orderHistory.sort(new Comparator<Product>() {
                     @Override
                     public int compare(Product p1, Product p2) {
-                        return p2.getPurchaseTime().compareTo(p1.getPurchaseTime());
+                        return p2.getPurchaseDate().compareTo(p1.getPurchaseDate());
                     }
                 }
             );
@@ -169,9 +158,7 @@ public class UserService {
         if (user == null) {
             return false;
         }
-
         ArrayList<Product> purchasedProducts = getUserOrderHistory(userId, true);
-
         Product purchasedProduct = null;
         for (Product p : purchasedProducts) {
             if (p.getId().equals(productId)) {
@@ -179,24 +166,60 @@ public class UserService {
                 break;
             }
         }
-
         if (purchasedProduct == null) {
             return false;
         }
-
         String userReviewIdentifier = "User-" + userId;
-
         for (String review : purchasedProduct.getReviews()) {
             if (review.startsWith(userReviewIdentifier)) {
                 return false;
             }
         }
-
         purchasedProduct.getReviews().add(userReviewIdentifier + ": " + reviewText);
         double totalRatings = purchasedProduct.getRating() * (purchasedProduct.getReviews().size() - 1);
         double newAverageRating = (totalRatings + rating) / purchasedProduct.getReviews().size();
         purchasedProduct.setRating(newAverageRating);
         return true;
+    }
+
+    public ArrayList<Product> getMostAndLeastPurchasedProducts(String adminId) {
+        User admin = getUserById(adminId);
+        if (admin == null || !admin.getRole().equals("Admin")) {
+            return null;
+        }
+
+        ArrayList<Product> allProducts = productService.getAllProducts();
+        Map<String, Integer> productPurchaseCount = new HashMap<>();
+
+        for (User user : getAllUsers()) {
+            for (Product purchased : user.getPurchasedProducts()) {
+                productPurchaseCount.merge(purchased.getId(), 1, Integer::sum);
+            }
+        }
+
+        Product mostPurchased = null;
+        Product leastPurchased = null;
+        int maxCount = 0;
+        int minCount = Integer.MAX_VALUE;
+
+        for (Product product : allProducts) {
+            int count = productPurchaseCount.getOrDefault(product.getId(), 0);
+            if (count > maxCount) {
+                maxCount = count;
+                mostPurchased = product;
+            }
+            if (count < minCount && count > 0) {
+                minCount = count;
+                leastPurchased = product;
+            }
+        }
+
+        ArrayList<Product> result = new ArrayList<>();
+        if (mostPurchased != null)
+            result.add(mostPurchased);
+        if (leastPurchased != null)
+            result.add(leastPurchased);
+        return result;
     }
 
 }

@@ -57,4 +57,5 @@ public class ProductController {
             return ResponseEntity.status(400).body(new ApiResponse("Reviews could not be found"));
         return ResponseEntity.status(200).body(productService.getReviews(id));
     }
+
 }

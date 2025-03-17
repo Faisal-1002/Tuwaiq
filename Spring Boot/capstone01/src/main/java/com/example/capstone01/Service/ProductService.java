@@ -38,7 +38,7 @@ public class ProductService {
             if (products.get(i).getId().equals(id)) {
                 Product existingProduct = products.get(i);
 
-                product.setPurchaseTime(existingProduct.getPurchaseTime());
+                product.setPurchaseDate(existingProduct.getPurchaseDate());
 
                 existingProduct.setName(product.getName());
                 existingProduct.setPrice(product.getPrice());
@@ -71,16 +71,24 @@ public class ProductService {
 
     public ArrayList<String> getReviews(String productId) {
         ArrayList<String> mergedReviews = new ArrayList<>();
-
-        // Iterate through all products to find all instances of this product
-        for (Product product : products) {
-            if (product.getId().equals(productId)) {
-                mergedReviews.addAll(product.getReviews()); // Merge all reviews
+        Product product = getProductById(productId);
+        if (product == null) {
+            return null;
+        }
+        double productRating = product.getRating();
+        for (Product product1 : products) {
+            if (product1.getId().equals(productId)) {
+                for (int i = 0; i < product1.getReviews().size(); i++) {
+                    String reviewText = product1.getReviews().get(i);
+                    String reviewWithRating = productRating + " - " + reviewText;
+                    mergedReviews.add(reviewWithRating);
+                }
             }
         }
-
-        return mergedReviews.isEmpty() ? null : mergedReviews;
+        if (mergedReviews.isEmpty()) {
+            return null;
+        }
+        return mergedReviews;
     }
-
 
 }
