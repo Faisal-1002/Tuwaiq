@@ -1,0 +1,77 @@
+create database store;
+
+create table countries (
+    code int primary key,
+    name varchar(20) unique,
+    continent_name varchar(20) not null
+);
+
+create table users (
+    id int primary key ,
+    full_name varchar(20),
+    email varchar(20) unique,
+    gender char(1) check (gender='m' or gender='f'),
+    date_of_birth date,
+    created_at datetime default current_timestamp,
+    country_id int,
+    foreign key (country_code) references countries(code)
+);
+
+
+create table orders (
+    id int primary key,
+    user_id int,
+    foreign key (user_id) references users(id)
+    status varchar(6) check (status='start' or status='finish'),
+    created_at datetime default current_timestamp,
+);
+
+create table products (
+    id int primary key,
+    name varchar(10) not null,
+    price default 0,
+    status varchar(10) check (status='valid' or status='expired'),
+    created_at datetime default current_timestamp
+);
+
+create table order_products (
+    id int primary key,
+    order_id int,
+    foreign key (order_id) references orders(id),
+    product_id int,
+    foreign key (product_id) references products(id)
+    quantity int default 0,
+);
+
+insert into countries (code, name, continent_name) values 
+(1, 'ksa', 'asia'),
+(2, 'qatar', 'asia'),
+(3, 'uae', 'asia');
+
+insert into users (id, full_name, email, gender, date_of_birth, country_code) values 
+(1, 'faisal', 'faisal@gmail.com', 'm', '1990-01-01', 1),
+(2, 'ali', 'ali@gmail.com', 'm', '1985-05-15', 2),
+(3, 'ahmed', 'ahmed@gmail.com', 'm', '1995-10-20', 3);
+
+insert into orders (id, user_id, status) values 
+(1, 1, 'start'),
+(2, 2, 'finish'),
+(3, 3, 'start');
+
+insert into products (id, name, price, status) values 
+(1, 'laptop', 1000, 'valid'),
+(2, 'phone', 500, 'valid'),
+(3, 'tablet', 300, 'expired');
+
+insert into order_products (id, order_id, product_id, quantity) values 
+(1, 1, 1, 1),
+(2, 2, 2, 2),
+(3, 3, 3, 3);
+
+update countries set name = 'kuwait' where code = 1;
+update countries set name = 'bahrain' where code = 2;
+update countries set name = 'oman' where code = 3;
+
+delete from products where id = 1;
+delete from products where id = 2;
+delete from products where id = 3;
