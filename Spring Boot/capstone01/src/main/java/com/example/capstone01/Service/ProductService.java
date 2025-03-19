@@ -1,6 +1,7 @@
 package com.example.capstone01.Service;
 
 import com.example.capstone01.Model.Category;
+import com.example.capstone01.Model.MerchantStock;
 import com.example.capstone01.Model.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class ProductService {
             if (products.get(i).getId().equals(id)) {
                 Product existingProduct = products.get(i);
 
-                product.setPurchaseDate(existingProduct.getPurchaseDate());
+                product.setPurchaseDateTime(existingProduct.getPurchaseDateTime());
 
                 existingProduct.setName(product.getName());
                 existingProduct.setPrice(product.getPrice());
@@ -90,5 +91,4 @@ public class ProductService {
         }
         return mergedReviews;
     }
-
 }

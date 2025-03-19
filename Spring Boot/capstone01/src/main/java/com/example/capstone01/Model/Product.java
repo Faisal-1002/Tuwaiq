@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 @Data
@@ -28,5 +29,5 @@ public class Product {
     @Max(value = 5, message = "Rating cannot be more than 5")
     private double rating = 0.0;
     private ArrayList<String> reviews = new ArrayList<>();
-    private LocalDate purchaseDate;
+    private LocalDateTime purchaseDateTime;
 }

@@ -6,7 +6,8 @@ import com.example.capstone01.Model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
@@ -89,7 +90,7 @@ public class UserService {
 
         user.setBalance(user.getBalance() - product.getPrice());
         merchantStock.setStock(merchantStock.getStock() - 1);
-        product.setPurchaseDate(LocalDate.now());
+        product.setPurchaseDateTime(LocalDateTime.now());
         product.setStatus("Purchased");
         user.getPurchasedProducts().add(product);
 
@@ -121,6 +122,9 @@ public class UserService {
         if (merchantStock == null) {
             return false;
         }
+        if (ChronoUnit.DAYS.between(product.getPurchaseDateTime(), LocalDateTime.now()) > 15) {
+            return false;
+        }
         merchantStock.setStock(merchantStock.getStock() + 1);
         user.setBalance(user.getBalance() + product.getPrice());
         product.setStatus("Refunded");
@@ -137,7 +141,7 @@ public class UserService {
             orderHistory.sort(new Comparator<Product>() {
                     @Override
                     public int compare(Product p1, Product p2) {
-                        return p1.getPurchaseDate().compareTo(p2.getPurchaseDate());
+                        return p1.getPurchaseDateTime().compareTo(p2.getPurchaseDateTime());
                     }
                 }
             );
@@ -145,7 +149,7 @@ public class UserService {
             orderHistory.sort(new Comparator<Product>() {
                     @Override
                     public int compare(Product p1, Product p2) {
-                        return p2.getPurchaseDate().compareTo(p1.getPurchaseDate());
+                        return p2.getPurchaseDateTime().compareTo(p1.getPurchaseDateTime());
                     }
                 }
             );
@@ -155,7 +159,7 @@ public class UserService {
 
     public boolean addReview(String userId, String productId, double rating, String reviewText) {
         User user = getUserById(userId);
-        if (user == null) {
+        if (user == null || rating < 0 || rating > 5) {
             return false;
         }
         ArrayList<Product> purchasedProducts = getUserOrderHistory(userId, true);
@@ -221,5 +225,4 @@ public class UserService {
             result.add(leastPurchased);
         return result;
     }
-
 }

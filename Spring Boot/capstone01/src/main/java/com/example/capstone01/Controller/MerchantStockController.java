@@ -48,6 +48,6 @@ public class MerchantStockController {
     public ResponseEntity addProductStock(@PathVariable String productId, @PathVariable String merchantId, @PathVariable int quantity){
         if (merchantStockService.addProductStock(productId, merchantId, quantity))
             return ResponseEntity.status(200).body(new ApiResponse("Product Stock added successfully"));
-        return ResponseEntity.status(400).body(new ApiResponse("Product Stock already exists"));
+        return ResponseEntity.status(400).body(new ApiResponse("Product Stock could not be added"));
     }
 }
