@@ -25,8 +25,9 @@ public class UserController {
     public ResponseEntity addUser(@Valid @RequestBody User user, Errors errors){
         if (errors.hasErrors())
             return ResponseEntity.status(400).body(errors.getFieldError().getDefaultMessage());
-        userService.addUser(user);
-        return ResponseEntity.status(200).body(new ApiResponse("user added"));
+        if (userService.addUser(user))
+            return ResponseEntity.status(200).body(new ApiResponse("user added"));
+        return ResponseEntity.status(400).body(new ApiResponse("user not added"));
     }
 
     @PutMapping("/update/{id}")

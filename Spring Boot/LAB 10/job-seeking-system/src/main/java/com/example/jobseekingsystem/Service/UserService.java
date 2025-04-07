@@ -17,8 +17,13 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public void addUser(User user){
+    public Boolean addUser(User user){
+        for (User user1 : userRepository.findAll()){
+            if (user1.getEmail().equals(user.getEmail()))
+                return false;
+        }
         userRepository.save(user);
+        return true;
     }
 
     public Boolean updateUser(Integer id, User user){
