@@ -49,6 +49,9 @@ public class AddressService {
         if (address == null) {
             throw new ApiException("Address not found");
         }
+        Teacher teacher = teacherRepository.findTeacherById(id);
+        teacher.setAddress(null);
+        teacherRepository.save(teacher);
         addressRepository.delete(address);
     }
 
