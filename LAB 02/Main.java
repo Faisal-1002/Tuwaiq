@@ -45,27 +45,24 @@ public class Main {
         //3.Write a program to find the k largest elements in a given array.
         //Elements in the array can be in any order.
 
-        ArrayList<Integer> numbers = new ArrayList<Integer>();
-        numbers.add(1);
-        numbers.add(4);
-        numbers.add(17);
-        numbers.add(7);
-        numbers.add(25);
-        numbers.add(3);
-        numbers.add(100);
-
-        System.out.println("Enter the k largest numbers");
+        ArrayList<Integer> numbers = new ArrayList<>(Arrays.asList(1, 4, 17, 7, 25, 3, 100));
+        
+        System.out.println("Enter the value of k:");
         int k = data.nextInt();
-
+        
         for (int i = 0; i < k; i++) {
-            int max1 = 0;
-            for (int j = 0; j < numbers.size() -1 ; j++) {
-                if(numbers.get(j+1)>numbers.get(j)){
-                    max1 = numbers.get(j+1);
+            int max = Integer.MIN_VALUE;
+            int maxIndex = -1;
+
+            for (int j = 0; j < numbers.size(); j++) {
+                if (numbers.get(j) > max) {
+                    max = numbers.get(j);
+                    maxIndex = j;
                 }
             }
-            System.out.print(max1 + " ");
-            numbers.removeAll(Arrays.asList(max1));
+
+            System.out.print(max + " ");
+            numbers.remove(maxIndex);
         }
 
         //4. Create a method to reverse an array of integers.
